@@ -1,0 +1,13 @@
+# The main pipeline for demo_dab
+resources:
+  pipelines:
+    demo_dab_pipeline:
+      name: demo_dab_pipeline
+      catalog: default
+      target: demo_dab_${bundle.target}
+      libraries:
+        - notebook:
+            path: ../src/dlt_pipeline.ipynb
+
+      configuration:
+        bundle.sourcePath: ${workspace.file_path}/src

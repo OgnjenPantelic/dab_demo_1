@@ -1,0 +1,27 @@
+resources:
+  jobs:
+    opan_dab_job:
+      name: opan_dab_job
+      tasks:
+        - task_key: taska1
+          existing_cluster_id: 0118-165440-l8erfx3g
+          email_notifications: {}
+          run_if: ALL_SUCCESS
+          notebook_task:
+            notebook_path: ../src/notebook1.sql
+            source: WORKSPACE
+          webhook_notifications: {}
+        - task_key: task2
+          depends_on:
+            - task_key: taska1
+          notebook_task:
+            source: WORKSPACE
+            notebook_path: ../src/notebook2.py
+          run_if: ALL_SUCCESS
+          email_notifications: {}
+          webhook_notifications: {}
+      webhook_notifications: {}
+      email_notifications: {}
+      max_concurrent_runs: 1
+      queue:
+        enabled: true

@@ -1,0 +1,33 @@
+resources:
+  jobs:
+    dab_test_job_opan:
+      name: dab_test_job_opan
+      tasks:
+        - task_key: dab_test_opan
+          min_retry_interval_millis: 15000
+          timeout_seconds: 300
+          max_retries: 1
+          run_if: ALL_SUCCESS
+          webhook_notifications: {}
+          health:
+            rules:
+              - metric: RUN_DURATION_SECONDS
+                op: GREATER_THAN
+                value: 60
+          notebook_task:
+            source: WORKSPACE
+            notebook_path: ../src/dab_test_notebook_1.py
+          notification_settings:
+            no_alert_for_skipped_runs: true
+          email_notifications:
+            on_success:
+              - ognjen.pantelic@databricks.com
+            on_duration_warning_threshold_exceeded:
+              - ognjen.pantelic@databricks.com
+            on_failure:
+              - ognjen.pantelic@databricks.com
+      queue:
+        enabled: true
+      email_notifications: {}
+      max_concurrent_runs: 1
+      webhook_notifications: {}
